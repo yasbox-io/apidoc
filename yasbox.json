@@ -21,9 +21,165 @@
       "description": "Production"
     }
   ],
-  "paths": {},
+  "tags": [
+    {
+      "name": "resources"
+    }
+  ],
+  "paths": {
+    "/resources": {
+      "get": {
+        "summary": "List resources",
+        "tags": [
+          "resources"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "description": "Resources.",
+                      "items": {
+                        "$ref": "#/components/schemas/Resource"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Request validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "listResources",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "/My photos"
+            },
+            "in": "query",
+            "name": "parentPath",
+            "description": "Filter resources by parent path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "example": "eef99d47-0198-4dca-97f6-85f9786e3561",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "parentId",
+            "description": "Filter resources by parent id"
+          }
+        ],
+        "description": "List or search resources"
+      }
+    }
+  },
   "components": {
-    "schemas": {},
-    "securitySchemes": {}
+    "schemas": {
+      "Resource": {
+        "title": "Resource",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the resource.",
+            "example": "90d02ff9-7405-4ad0-89c4-252e80177942"
+          },
+          "path": {
+            "type": "string",
+            "description": "The absolute path of the resource.",
+            "example": "/My photos/sky.jpg"
+          },
+          "name": {
+            "type": "string",
+            "description": "The resource name.",
+            "example": "sky.jpg"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "file",
+              "folder"
+            ],
+            "description": "The type of resource: file or folder.",
+            "example": "file"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/Resource"
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "name",
+          "type"
+        ]
+      },
+      "Error": {
+        "title": "ErrorResponse",
+        "type": "object",
+        "description": "Error response",
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "description"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Short error code"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable error description"
+              },
+              "meta": {
+                "type": "object",
+                "description": "Error metadata"
+              }
+            }
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    },
+    "securitySchemes": {},
+    "responses": {
+      "validationerror": {
+        "description": "Request validation error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {}
+          }
+        }
+      }
+    }
   }
 }
