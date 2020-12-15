@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Yasbox",
+    "version": "1.0",
+    "contact": {
+      "name": "Yasbox Team",
+      "url": "https://yasbox.io",
+      "email": "contact@yasbox.io"
+    },
+    "termsOfService": "https://yasbox.io/terms",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/yasbox-io/apidoc/blob/master/LICENSE"
+    },
+    "description": "File hosting service with client-side encryption"
+  },
+  "servers": [
+    {
+      "url": "https://app.yasbox.io/api/v1",
+      "description": "Production"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {},
+    "securitySchemes": {}
+  }
+}
